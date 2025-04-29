@@ -95,7 +95,8 @@ The final output is an Excel file containing:
 | CORUM Terms | Complex memberships from CORUM |
 
 Optional below (if you have a proteomics data)
-
+| Column | Description |
+|--------|-------------|
 | Sticky Binder Flag | Indicates sticky background binders (if flagged) |
 | EV LFQ Background Flag | Flag for enrichment in EV LFQ background |
 | EV Control Background Flag | Flag for control background enrichment |
