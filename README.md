@@ -1,6 +1,15 @@
 
 # UniProt and GO Term Annotation Script
 
+---
+
+## Citation
+If you use this script in your research, please cite:
+
+> Umut Tank. (2025). UniProt and GO Term Annotation Script. GitHub Repository. Available at: [https://github.com/umutank/auto-gene-annotation.git]
+
+---
+
 ## Overview
 This Jupyter Notebook (`Uniprot GO terms final 2.ipynb`) provides an automated pipeline to annotate gene symbols with detailed biological information from the UniProt and g:Profiler databases.  
 It is designed for researchers who need to enrich protein or gene lists with molecular function, biological processes, cellular components, pathway memberships, and protein complex participation.
@@ -109,11 +118,3 @@ Tested with:
 - Parallelization to speed up large-scale queries.
 - Automatic handling of mixed UniProt IDs and gene symbols.
 - Integration of additional annotation databases (e.g., DisGeNET, STRING).
-
-
-## Citation
-If you use this script in your research, please cite:
-
-> Umut Tank. (2025). UniProt and GO Term Annotation Script. GitHub Repository. Available at: [https://github.com/umutank/auto-gene-annotation.git]
-
----
