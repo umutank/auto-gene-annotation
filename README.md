@@ -11,35 +11,38 @@ If you use this script in your research, please cite:
 ---
 
 ## Overview
-This Jupyter Notebook (`Uniprot GO terms final 2.ipynb`) provides an automated pipeline to annotate gene symbols with detailed biological information from the UniProt and g:Profiler databases.  
-It is designed for researchers who need to enrich protein or gene lists with molecular function, biological processes, cellular components, pathway memberships, and protein complex participation.
+This Jupyter Notebook (`Uniprot GO terms final 2.ipynb`) provides a high-throughput pipeline for annotating gene symbols with comprehensive biological information using the UniProt and g:Profiler APIs.  
+In addition to core annotations, it integrates domain descriptions, GO terms (via QuickGO/g:Profiler), pathway data, and custom proteomics-specific flags.
 
-This tool is especially useful for proteomics, transcriptomics, and functional genomics studies.
+This tool is tailored for systems biology and omics researchers seeking functional annotation of protein datasets, especially in the context of proteomics, transcriptomics, and interactome studies.
 
 ---
 
 ## Features
-- Annotate gene lists with:
-  - **Protein names**, **UniProt IDs**, and **functional descriptions** (from UniProt).
-  - **Subcellular localization** and **Pfam domains** (from UniProt).
-  - **GO terms**: Biological Process, Molecular Function, Cellular Component (from g:Profiler).
-  - **Pathway memberships**: KEGG, Reactome, WikiPathways (from g:Profiler).
-  - **Protein complexes**: CORUM complexes (from g:Profiler).
-- Export the final annotated dataset as an Excel file.
-- Fully automated querying and merging of results.
-- Researcher-friendly, clean output.
+- Automated annotations for input gene lists with:
+  - **UniProt ID**, **protein names**, **function**, and **subcellular localization**.
+  - **Pfam domain IDs**, **Pfam domain descriptions**, and **Pfam clan names**.
+  - **Canonical isoform** information.
+  - **GO terms** (Biological Process, Molecular Function, Cellular Component) from g:Profiler and/or QuickGO.
+  - **Pathway memberships**: KEGG, Reactome, WikiPathways.
+  - **Protein complexes**: CORUM.
+  - **Name matching** consistency check.
+  - **Sticky binder** and **background contamination flags** (e.g., EV LFQ/Control background flags).
+
+- Output saved in Excel format with clear column organization.
+- Modular code allows easy adaptation to new annotation sources.
 
 ---
 
 ## Requirements
 
-You will need the following Python packages installed:
+Install required packages with:
 
 ```bash
 pip install pandas requests gprofiler-official openpyxl
 ```
 
-Tested with:
+Tested on:
 - Python 3.10+
 - Jupyter Notebook
 
@@ -47,74 +50,77 @@ Tested with:
 
 ## Usage
 
-1. **Clone** this repository:
+1. Clone the repository:
     ```bash
-    git clone https://github.com/umutank/auto-gene-annotation.git
+    git clone https://github.com/your-username/your-repository.git
     ```
 
-2. **Prepare your input**:
-    - An Excel file containing a column `"Gene names"` with the gene symbols you wish to annotate.
+2. Prepare your input:
+    - An Excel file (.xlsx) with a `"Gene names"` column containing gene symbols to be annotated.
 
-3. **Open the notebook**:
+3. Open the notebook:
     ```bash
     jupyter notebook "Uniprot GO terms final 2.ipynb"
     ```
 
-4. **Modify the input path** inside the notebook:
-    - Set `input_file_path` to the path of your input file.
-    
-5. **Run all cells**
+4. Set the input file path inside the notebook:
+    ```python
+    input_file_path = "your_input_file.xlsx"
+    ```
 
-6. **Retrieve your output**:
-    - An Excel file will be generated, containing all annotations, including:
-      - UniProt ID, Protein Name, Function, Localization, Pfam Domains
-      - GO terms, Pathways, CORUM Complexes
+5. Run all cells sequentially to generate the output file.
 
 ---
 
-## Example
+## Output Description
 
-### Input Format
+The final output is an Excel file containing:
 
-| Gene names |
-|------------|
-| TP53       |
-| EGFR       |
-| GAPDH      |
-
-### Output Format
-
-| Gene names | UniProt ID | Protein names | Function | Subcellular Location | Pfam Domains | GO: Biological Process | GO: Molecular Function | GO: Cellular Component | KEGG Pathways | Reactome Pathways | WikiPathways | CORUM Complexes |
-|------------|------------|---------------|----------|----------------------|--------------|-------------------------|-------------------------|-------------------------|----------------|-------------------|--------------|-----------------|
-| TP53       | P04637     | Cellular tumor antigen p53 | Acts as a tumor suppressor | Nucleus | P53_tetramer (PF07710) | Apoptotic process | DNA binding | Nucleus | Apoptosis (hsa04210) | Signaling by TP53 | TP53 Network | p53 tetramer complex |
+| Column | Description |
+|--------|-------------|
+| Gene names | Original gene symbol |
+| UniProt ID | Accession number |
+| Protein Description | Recommended protein name from UniProt |
+| Function | Functional summary (UniProt) |
+| Subcellular Location | Known or predicted cellular compartment |
+| PFAM Domains | Domain IDs from Pfam |
+| PFAM Descriptions | Domain function summaries |
+| PFAM Clan Names | Pfam clan (if any) |
+| GO:BP Terms | Biological process terms |
+| GO:MF Terms | Molecular function terms |
+| GO:CC Terms | Cellular component terms |
+| REAC Terms | Reactome pathway annotations |
+| KEGG Terms | KEGG pathway names |
+| WP Terms | WikiPathways associations |
+| CORUM Terms | Complex memberships from CORUM |
+| Sticky Binder Flag | Indicates sticky background binders (if flagged) |
+| EV LFQ Background Flag | Flag for enrichment in EV LFQ background |
+| EV Control Background Flag | Flag for control background enrichment |
+| Name Match Discrepancy | Notes discrepancies between UniProt and input gene names |
 
 ---
 
 ## How It Works
 
-- **UniProt Query**:  
-  For each gene symbol, the notebook queries UniProt REST API to retrieve functional, localization, and domain data.
-  
-- **g:Profiler Query**:  
-  The notebook uses the g:Profiler API to fetch GO terms and pathway/complex annotations.
-
-- **Data Merging**:  
-  UniProt and g:Profiler results are merged into the original gene list.
-
-- **Final Export**:  
-  The enriched table is saved as a new Excel file.
+- **UniProt API** is queried using gene names to extract ID, protein info, localization, and domains.
+- **Pfam domains** and **clan descriptions** are retrieved and matched.
+- **g:Profiler** returns functional annotations (GO, KEGG, Reactome, WP, CORUM).
+- **QuickGO (optional)** can validate or extend GO terms.
+- Final dataset is merged and exported as a clean Excel file.
 
 ---
 
 ## Notes
-- Ensure that your input Excel file has a column named exactly `"Gene names"`.
-- A working internet connection is required to query UniProt and g:Profiler APIs.
-- If a gene symbol cannot be found in UniProt or g:Profiler, its annotations will be left blank.
-- UniProt and g:Profiler APIs have usage limits; large datasets may require batching.
+- Ensure input has a column titled exactly `"Gene names"`.
+- Some entries may lack annotations if not found in UniProt or g:Profiler.
+- Custom background filtering (Sticky Binder/EV LFQ flags) is based on user-defined criteria (edit inside the script).
+- Internet connection is required for API access.
 
 ---
 
 ## Future Improvements
-- Parallelization to speed up large-scale queries.
-- Automatic handling of mixed UniProt IDs and gene symbols.
-- Integration of additional annotation databases (e.g., DisGeNET, STRING).
+- Support mixed UniProt IDs and gene names.
+- Integrate disease annotations (e.g., DisGeNET).
+- Add batch progress tracking and retry mechanisms.
+
+
