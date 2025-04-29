@@ -93,6 +93,9 @@ The final output is an Excel file containing:
 | KEGG Terms | KEGG pathway names |
 | WP Terms | WikiPathways associations |
 | CORUM Terms | Complex memberships from CORUM |
+
+Optional below (if you have a proteomics data)
+
 | Sticky Binder Flag | Indicates sticky background binders (if flagged) |
 | EV LFQ Background Flag | Flag for enrichment in EV LFQ background |
 | EV Control Background Flag | Flag for control background enrichment |
