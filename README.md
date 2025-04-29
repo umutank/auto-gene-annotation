@@ -1,5 +1,6 @@
 
 # UniProt and GO Term Annotation Script
+## Protein and Gene Annotation
 
 ---
 
